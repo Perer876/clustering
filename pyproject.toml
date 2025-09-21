@@ -1,0 +1,7 @@
+[project]
+name = "clustering"
+version = "0.1.0"
+description = "Clustering utilities used for a subject in a Master's degree in Applied Computing"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
