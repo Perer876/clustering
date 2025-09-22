@@ -6,6 +6,7 @@ import numpy as np
 app = Typer()
 console = Console()
 
+
 @app.command()
 def make_blobs(
     file: Path,
@@ -25,6 +26,7 @@ def make_blobs(
     )
 
     np.savetxt(file, blobs, delimiter=",")
+
 
 @app.command()
 def bsas(
