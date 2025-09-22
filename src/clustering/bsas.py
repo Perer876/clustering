@@ -1,5 +1,4 @@
 from typing import final, Sequence
-import numpy as np
 from clustering.common import Cluster, Distance, Representative
 from clustering.proximity_measure import euclidean
 from clustering.representative import mean
@@ -26,5 +25,31 @@ class Bsas:
         self.d = d
         self.r = r
 
-    def __call__(self, data: Cluster) -> Sequence[int]:
-        pass
+    def __call__(self, x: Cluster) -> Sequence[Cluster]:
+        n = len(x)
+
+        if n == 0:
+            return []
+
+        m = 1
+        clusters = [[x[0]]]
+        representatives = [x[0]]
+
+        for i in range(1, n):
+            xi = x[i]
+
+            d_clusters = [
+                (k, ck, self.d(xi, representatives[k])) for k, ck in enumerate(clusters)
+            ]
+
+            k, ck, distance = min(d_clusters, key=lambda d_cluster: d_cluster[0])
+
+            if distance > self.th and m < self.q:
+                m += 1
+                clusters.append([xi])
+                representatives.append(xi)
+            else:
+                ck.append(xi)
+                representatives[k] = self.r(ck)
+
+        return clusters
