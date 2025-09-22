@@ -1,3 +1,15 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+locks/
+
+# Virtual environments
+.venv
+
 # Ignore IDE and editor specific files
 .idea/
 .fleet/

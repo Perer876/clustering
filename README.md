@@ -15,14 +15,14 @@ This repository holds some clustering utilities used for a subject in a Master's
     cd clustering
     ```
 
-2. Create environment and install dependencies:
+2. Create environment, install dependencies and install cli:
 
     ```bash
-    uv sync
+    uv tool install ./ --editable
     ```
 
 ## Usage
 
 ```bash
-uv run main.py
+clustering --help
 ```
