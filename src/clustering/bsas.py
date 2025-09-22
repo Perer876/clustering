@@ -25,7 +25,7 @@ class Bsas:
         self.d = d
         self.r = r
 
-    def __call__(self, x: Cluster) -> Sequence[Cluster]:
+    def __call__(self, x: Cluster) -> Sequence[int]:
         n = len(x)
 
         if n == 0:
@@ -34,6 +34,7 @@ class Bsas:
         m = 1
         clusters = [[x[0]]]
         representatives = [x[0]]
+        labels = [0]
 
         for i in range(1, n):
             xi = x[i]
@@ -45,11 +46,13 @@ class Bsas:
             k, ck, distance = min(d_clusters, key=lambda d_cluster: d_cluster[0])
 
             if distance > self.th and m < self.q:
+                labels.append(m)
                 m += 1
                 clusters.append([xi])
                 representatives.append(xi)
             else:
+                labels.append(k)
                 ck.append(xi)
                 representatives[k] = self.r(ck)
 
-        return clusters
+        return labels
