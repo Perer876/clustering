@@ -43,7 +43,7 @@ class Bsas:
                 (k, ck, self.d(xi, representatives[k])) for k, ck in enumerate(clusters)
             ]
 
-            k, ck, distance = min(d_clusters, key=lambda d_cluster: d_cluster[0])
+            k, ck, distance = min(d_clusters, key=lambda d_cluster: d_cluster[2])
 
             if distance > self.th and m < self.q:
                 labels.append(m)

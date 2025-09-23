@@ -26,3 +26,15 @@ This repository holds some clustering utilities used for a subject in a Master's
 ```bash
 clustering --help
 ```
+
+Create blobs dataset:
+
+```bash
+clustering create-dataset data/raw/blobs.csv --samples 100 --features 2 --centers 3 --seed 0
+```
+
+Cluster using bsas:
+
+```bash
+clustering bsas data/raw/blobs.csv data/processed/blobs_bsas.csv --threshold 1.5 --max-clusters 5
+```
