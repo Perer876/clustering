@@ -3,6 +3,8 @@ from rich.console import Console
 from pathlib import Path
 import numpy as np
 
+from clustering.utils import file_destination
+
 app = Typer()
 console = Console()
 
@@ -29,14 +31,61 @@ def create_dataset(
 
 
 @app.command()
+def plot(from_file: Path, to_file: Path):
+    """Plot a 2D cluster."""
+    import matplotlib.pyplot as plt
+
+    cluster = np.loadtxt(from_file, delimiter=",")
+
+    if cluster.shape[1] != 2:
+        console.print("[red]Error:[/red] The input file must have 2 columns (x, y).")
+        return
+
+    plt.scatter(cluster[:, 0], cluster[:, 1], c="gray", marker="o")
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.title("Cluster Plot")
+    plt.grid(True)
+
+    plt.savefig(to_file)
+
+
+@app.command()
+def plot_clusters(from_file: Path, to_file: Path):
+    """Plot 2D clusters."""
+    import matplotlib.pyplot as plt
+
+    cluster = np.loadtxt(from_file, delimiter=",")
+
+    if cluster.shape[1] != 3:
+        console.print(
+            "[red]Error:[/red] The input file must have 3 columns (label, x, y)."
+        )
+        return
+
+    labels = cluster[:, 0]
+    points = cluster[:, 1:]
+
+    plt.scatter(points[:, 0], points[:, 1], c=labels, cmap="tab10")
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.title("Cluster Plot")
+    plt.grid(True)
+
+    plt.savefig(to_file)
+
+
+@app.command()
 def bsas(
-    input: Path,
-    output: Path,
+    origin: Path,
+    target: Path,
     threshold: float = 1.0,
     max_clusters: int = 4,
 ):
     """
     Basic Sequential Algorithmic Scheme (BSAS) clustering.
+    :param origin: path to the input file.
+    :param target: path to the output file or directory.
     :param threshold: threshold distance for creating a new cluster.
     :param max_clusters: maximum number of clusters.
     """
@@ -44,15 +93,12 @@ def bsas(
 
     _bsas = Bsas(q=max_clusters, th=threshold)
 
-    cluster = np.loadtxt(input, delimiter=",")
+    cluster = np.loadtxt(origin, delimiter=",")
 
     labels = _bsas(cluster)
 
     labeled_cluster = np.column_stack((np.array(labels), cluster))
 
-    if output.is_dir():
-        file_path = output / input.name
-    else:
-        file_path = output
+    file_path = file_destination(origin, target)
 
     np.savetxt(file_path, labeled_cluster, delimiter=",")

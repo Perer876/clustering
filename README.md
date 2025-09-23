@@ -30,7 +30,7 @@ clustering --help
 Create blobs dataset:
 
 ```bash
-clustering create-dataset data/raw/blobs.csv --samples 100 --features 2 --centers 3 --seed 0
+clustering create-dataset data/raw/blobs.csv --samples 100 --features 2 --centers 3 --seed 1
 ```
 
 Cluster using bsas:
@@ -38,3 +38,8 @@ Cluster using bsas:
 ```bash
 clustering bsas data/raw/blobs.csv data/processed/blobs_bsas.csv --threshold 1.5 --max-clusters 5
 ```
+
+Plot a dataset:
+
+```bash
+clustering plot data/raw/blobs.csv plots/blobs.png
