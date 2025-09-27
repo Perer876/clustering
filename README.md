@@ -43,3 +43,11 @@ Plot a dataset:
 
 ```bash
 clustering plot data/raw/blobs.csv plots/blobs.png
+```
+
+### K-means
+
+```bash
+clustering k-means data/raw/100S_2F_3C.csv data/processed/k-means_3k.csv --k 3 --seed 0
+clustering plot-clusters data/processed/k-means_3k.csv plots/k-means_3k.png
+```

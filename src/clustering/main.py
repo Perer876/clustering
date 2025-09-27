@@ -102,3 +102,32 @@ def bsas(
     file_path = file_destination(origin, target)
 
     np.savetxt(file_path, labeled_cluster, delimiter=",")
+
+
+@app.command()
+def k_means(
+    origin: Path,
+    target: Path,
+    k: int = 4,
+    seed: int = None,
+):
+    """
+    K-Means clustering.
+    :param origin: path to the input file.
+    :param target: path to the output file or directory.
+    :param k: number of clusters.
+    :param seed: random seed for centroid initialization.
+    """
+    from clustering.k_means import KMeans
+
+    _k_means = KMeans(k=k, seed=seed)
+
+    cluster = np.loadtxt(origin, delimiter=",")
+
+    labels = _k_means(cluster)
+
+    labeled_cluster = np.column_stack((np.array(labels), cluster))
+
+    file_path = file_destination(origin, target)
+
+    np.savetxt(file_path, labeled_cluster, delimiter=",")
